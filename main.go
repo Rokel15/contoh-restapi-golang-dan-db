@@ -6,17 +6,18 @@ import (
 	"log"
 	"mini-project-practice-build-rest-api/database"
 	"mini-project-practice-build-rest-api/routers"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "liatdibawahlaptop"
-	dbname   = "mini-project-practice-build-rest-api"
-)
+// const (
+// 	host     = "localhost"
+// 	port     = 5432
+// 	user     = "postgres"
+// 	password = "liatdibawahlaptop"
+// 	dbname   = "mini-project-practice-build-rest-api"
+// )
 
 var (
 	DB  *sql.DB
@@ -26,8 +27,14 @@ var (
 func main() {
 	var PORT = ":8080"
 
-	psqlInfo := fmt.Sprintf(
-		`host=%s port=%d user=%s password=%s dbname=%s sslmode=disable`, host, port, user, password, dbname,
+	// psqlInfo := fmt.Sprintf(`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`, os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
+
+	psqlInfo := fmt.Sprintf(`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
 	)
 
 	DB, err = sql.Open("postgres", psqlInfo)
