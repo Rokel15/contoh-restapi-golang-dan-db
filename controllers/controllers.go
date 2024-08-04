@@ -50,12 +50,17 @@ func UpdatePerson(c *gin.Context) {
 	var person entities.Person
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	err := c.Bind(&person)
+	err := c.BindJSON(&person)
 	if err != nil {
 		panic(err)
 	}
 
 	person.ID = id
+
+	err = repository.UpdatePerson(database.DbConnection, person)
+	if err != nil {
+		panic(err)
+	}
 
 	c.JSON(http.StatusOK, person)
 }
